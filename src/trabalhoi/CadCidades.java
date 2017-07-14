@@ -5,29 +5,33 @@
  */
 package trabalhoi;
 
+import Manager.CidadeManager;
+import Model.Cidade;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
 /**
- * @author Christian
- * Cria o cadastro de cidades
+ * @author Christian Cria o cadastro de cidades
  */
 public class CadCidades extends javax.swing.JDialog {
 
+    Cidade Cid_atual = new Cidade();
+
     /**
      * Creates new form CadCidades
-     * 
+     *
      * Novo formulario de cadastro de cidades
      */
     public CadCidades(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
-        
+
         this.setTitle("Cadastro de Cidades");
         BtnCancelar.doClick();
     }
@@ -283,74 +287,66 @@ public class CadCidades extends javax.swing.JDialog {
     }//GEN-LAST:event_KeyReleaseUpper
 
     /**
-     * Metodo genérico ligado a todos campos com perda de foco.
-     * Executa as ações devidas de acordo com o campo que perdeu o foco.
+     * Metodo genérico ligado a todos campos com perda de foco. Executa as ações
+     * devidas de acordo com o campo que perdeu o foco.
      *
-     * No campo da ID, verifica a existencia da mesma, e carrega os dados.
-     * Em campos Text, executa um ajuste de caracteres, deixando as iniciais maiusculas
-     * 
+     * No campo da ID, verifica a existencia da mesma, e carrega os dados. Em
+     * campos Text, executa um ajuste de caracteres, deixando as iniciais
+     * maiusculas
+     *
      * @param evt evento a ser executado
      */
     private void focusLostGen(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_focusLostGen
-        if (evt.getComponent() == ID)
-        {
-            try 
-            {
-                ResultSet result = ConexaoSQL.RetornoSQL("Select * from Cidade where Cid_ID=" + ID.getText());
+        if (evt.getComponent() == ID) {
+            if (!ID.getText().isEmpty()) {
 
-                Nome.setText(result.getString("Cid_Nome"));
-                CodEstado.setText(result.getString("Cid_cd_estado"));
-                CodPais.setText(result.getString("Cid_cd_pais"));
-                CEP.setText(result.getString("Cid_Cep"));
-            } catch (SQLException ex) {
-                Logger.getLogger(CadCidades.class.getName()).log(Level.SEVERE, null, ex);
+                ArrayList<Cidade> C1 = CidadeManager.getInstance().selecionar("Cid_ID=" + ID.getText());
+
+                if (!C1.isEmpty()) {
+                    Cid_atual = C1.get(1);
+                    ID.setText(String.valueOf(Cid_atual.getId()));
+                    Nome.setText(Cid_atual.getNome());
+                    CodEstado.setText(Cid_atual.getUf());
+                    CodPais.setText(Cid_atual.getPais());
+                    CEP.setText(Cid_atual.getCep());
+                }
             }
-            
-            if (Nome.getText().isEmpty()) 
-            {
+
+            if (Nome.getText().isEmpty()) {
                 ID.setText("");
             }
         }
-        if (evt.getComponent() == Nome)
-        {
+        if (evt.getComponent() == Nome) {
             Nome.setText(Utils.AjustaTexto(Nome.getText()));
         }
-        if (evt.getComponent() == CodEstado)
-        {
+        if (evt.getComponent() == CodEstado) {
             CodEstado.setText(CodEstado.getText().toUpperCase());
             NomeEstado.setText(Utils.RetornaNomeEstado(CodEstado.getText()));
         }
-        if (evt.getComponent() == CodPais)
-        {
-            CodPais.setText(CodPais.getText().toUpperCase());            
-              
-            if (CodPais.getText().equals("BRA"))
-            {
-               NomePais.setText("Brasil");
-            }
-            else 
-            {
-               NomePais.setText("Exterior");
+        if (evt.getComponent() == CodPais) {
+            CodPais.setText(CodPais.getText().toUpperCase());
+
+            if (CodPais.getText().equals("BRA")) {
+                NomePais.setText("Brasil");
+            } else {
+                NomePais.setText("Exterior");
             }
         }
     }//GEN-LAST:event_focusLostGen
 
     /**
-     * Metodo generico de todos cliques em botões
-     * Executa as ações devidas de acordo com o botão clicado.
+     * Metodo generico de todos cliques em botões Executa as ações devidas de
+     * acordo com o botão clicado.
      *
-     * F10 grava ou altera.
-     * F02 abre uma consulta rapida para seleção de Cidades, estados e paises existentes.
-     * F09 exclui
-     * Esc Cancela
-     * 
+     * F10 grava ou altera. F02 abre uma consulta rapida para seleção de
+     * Cidades, estados e paises existentes. F09 exclui Esc Cancela
+     *
      * @param evt evento a ser executado
      */
     private void BtnAction(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnAction
-        
-        if (evt.getSource() == BtnCancelar)
-        {
-            ID.setText("0");
+
+        if (evt.getSource() == BtnCancelar) {
+            ID.setText("");
             Nome.setText("");
             CodPais.setText("");
             NomePais.setText("");
@@ -358,55 +354,38 @@ public class CadCidades extends javax.swing.JDialog {
             NomeEstado.setText("");
             CEP.setText("");
         }
-        if (evt.getSource() == BtnConsultar)
-        {
+        if (evt.getSource() == BtnConsultar) {
             //Consulta de cidades
         }
-        if (evt.getSource() == BtnExcluir)
-        {
-            if (!ID.getText().isEmpty())
-            {
-                try {
-                    ConexaoSQL.ExecSQL("delete from Cidades where Cid_ID=" + ID.getText());
-                } catch (SQLException ex) {
-                    Logger.getLogger(CadCidades.class.getName()).log(Level.SEVERE, null, ex);
-                }
+        if (evt.getSource() == BtnExcluir) {
+            if (!ID.getText().isEmpty()) {
+                CidadeManager.getInstance().delete(Cid_atual);
             }
-                    
+
             BtnCancelar.doClick();
         }
-        if (evt.getSource() == BtnOK)
-        {
-            if (CodEstado.getText().isEmpty() || 
-                CodPais.getText().isEmpty() ||
-                Nome.getText().isEmpty())
-            {
+        if (evt.getSource() == BtnOK) {
+            if (CodEstado.getText().isEmpty()
+                    || CodPais.getText().isEmpty()
+                    || Nome.getText().isEmpty()) {
                 JOptionPane.showMessageDialog(this, "Campos obrigatórios não preenchidos \n  Estado, Pais e Nome da Cidade");
             }
-            
+
             try {
-                if (ID.getText().isEmpty())
-                {    
-                    ConexaoSQL.ExecSQL("INSERT INTO Cidades " +
-                        "(Cid_Nome, Cid_cd_estado, Cid_cd_pais, Cid_Cep) VALUES ('" +
-                        Nome.getText() + "', '" +
-                        CodEstado.getText() + "', '" +
-                        CodPais.getText() + "', '" +
-                        CEP.getText() + "')");
+                Cid_atual.setNome(Nome.getText());
+                Cid_atual.setPais(CodPais.getText());
+                Cid_atual.setUf(CodEstado.getText());
+                Cid_atual.setCep(CEP.getText());
+                
+                if (ID.getText().isEmpty()) {
+                    CidadeManager.getInstance().add(Cid_atual);
+                } else {
+                    Cid_atual.setId(Integer.parseInt(ID.getText()));
+                    CidadeManager.getInstance().update(Cid_atual);
                 }
-                else
-                {
-                    ConexaoSQL.ExecSQL("Update Cidades SET" +
-                        "Cid_Nome='" + Nome.getText() + "', " +
-                        "Cid_cd_estado='" + CodEstado.getText() + "', " +
-                        "Cid_cd_pais='" + CodPais.getText() + "', " +
-                        "Cid_Cep='" + CEP.getText() + "' WHERE " +
-                        "Cid_ID=" + ID.getText());
-                }
-            } catch (SQLException ex) {
-                Logger.getLogger(CadCidades.class.getName()).log(Level.SEVERE, null, ex);
+            } finally {
             }
-                    
+
             BtnCancelar.doClick();
         }
     }//GEN-LAST:event_BtnAction

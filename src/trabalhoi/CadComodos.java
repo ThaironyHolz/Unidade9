@@ -5,8 +5,12 @@
  */
 package trabalhoi;
 
+import Manager.ComodoManager;
+import Model.Comodo;
+import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -17,6 +21,7 @@ import javax.swing.JOptionPane;
  */
 public class CadComodos extends javax.swing.JDialog {
 
+    Comodo Com_atual = new Comodo();
     /**
      * Creates new form CadComodos
      */
@@ -220,15 +225,17 @@ public class CadComodos extends javax.swing.JDialog {
     private void focusLostGen(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_focusLostGen
         if (evt.getComponent() == ID)
         {
-            try 
-            {
-                ResultSet result = ConexaoSQL.RetornoSQL("Select * from Comodos where Com_ID=" + ID.getText());
+            if (!ID.getText().isEmpty()) {
 
-                Descricao.setText(result.getString("Com_descricao"));
-                Maximo.setText(result.getString("Com_MaxPessoas"));
-                Diaria.setText(result.getString("Com_ValorDiaria"));
-            } catch (SQLException ex) {
-                Logger.getLogger(CadCidades.class.getName()).log(Level.SEVERE, null, ex);
+                ArrayList<Comodo> C1 = ComodoManager.getInstance().selecionar("Com_ID=" + ID.getText());
+
+                if (!C1.isEmpty()) {
+                    Com_atual = C1.get(1);
+                    ID.setText(String.valueOf(Com_atual.getId()));
+                    Descricao.setText(Com_atual.getDescricao());
+                    Maximo.setText(String.valueOf(Com_atual.getMaxpessoas()));
+                    Diaria.setText(String.valueOf(Com_atual.getDiaria()));
+                }
             }
             
             if (Descricao.getText().isEmpty()) 
@@ -270,11 +277,7 @@ public class CadComodos extends javax.swing.JDialog {
         {
             if (!ID.getText().isEmpty())
             {
-                try {
-                    ConexaoSQL.ExecSQL("delete from Comodos where Com_ID=" + ID.getText());
-                } catch (SQLException ex) {
-                    Logger.getLogger(CadCidades.class.getName()).log(Level.SEVERE, null, ex);
-                }
+                ComodoManager.getInstance().delete(Com_atual);
             }
 
             BtnCancelar.doClick();
@@ -288,25 +291,17 @@ public class CadComodos extends javax.swing.JDialog {
             }
                    
             try {
-                if (ID.getText().isEmpty())
-                {    
-                    ConexaoSQL.ExecSQL("INSERT INTO Comodos " +
-                        "(Cid_Descricao, Cid_MaxPessoas, Cid_ValorDiaria) VALUES ('" +
-                        Descricao.getText() + "', " +
-                        Maximo.getText() + ", " +
-                        Diaria.getText() + ")");
+                Com_atual.setDescricao(Descricao.getText());
+                Com_atual.setMaxpessoas(Integer.parseInt(Maximo.getText()));
+                //Com_atual.setDiaria((Diaria.getText()));
+                
+                if (ID.getText().isEmpty()) {
+                    ComodoManager.getInstance().add(Com_atual);
+                } else {
+                    Com_atual.setId(Integer.parseInt(ID.getText()));
+                    ComodoManager.getInstance().update(Com_atual);
                 }
-                else
-                {
-                    ConexaoSQL.ExecSQL("Update Comodos SET" +
-                        "Com_Descricao='" + Descricao.getText() + "', " +
-                        "Com_MaxPessoas='" + Maximo.getText() + ", " +
-                        "Com_ValorDiaria='" + Diaria.getText() + " WHERE " +
-                        "Com_ID=" + ID.getText());
-                }
-                    
-            } catch (SQLException ex) {
-                Logger.getLogger(CadCidades.class.getName()).log(Level.SEVERE, null, ex);
+            } finally {
             }
 
             BtnCancelar.doClick();

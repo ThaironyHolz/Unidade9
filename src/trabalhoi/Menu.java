@@ -447,9 +447,9 @@ public class Menu extends javax.swing.JDialog {
             }
         if (evt.getSource() == BtnLancamentos)
             {
-                Btn1.setText("Notas");
+                Btn1.setText("Documentos");
                 Btn2.setText("Reservas");
-                Btn3.setText("Adc. Reservas");
+                Btn3.setText("Pessoas p/Reserva");
                 Btn8.setText("ESC Cancelar");
             }
         if (evt.getSource() == BtnRelatorios)

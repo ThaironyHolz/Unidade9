@@ -5,8 +5,12 @@
  */
 package trabalhoi;
 
+import Manager.PessoaManager;
+import Model.Pessoa;
+import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -17,13 +21,15 @@ import javax.swing.JOptionPane;
  */
 public class CadPessoas extends javax.swing.JDialog {
 
+    Pessoa Pes_atual = new Pessoa();
+
     /**
      * Creates new form CadPessoas
      */
     public CadPessoas(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
-        
+
         this.setTitle("Cadastro de Pessoas");
         BtnCancelar.doClick();
     }
@@ -570,19 +576,16 @@ public class CadPessoas extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     /**
-     * Metodo generico de todos cliques em botões
-     * Executa as ações devidas de acordo com o botão clicado.
+     * Metodo generico de todos cliques em botões Executa as ações devidas de
+     * acordo com o botão clicado.
      *
-     * F10 grava ou altera.
-     * F02 abre uma consulta rapida para seleção de Pessoas e cidades existentes.
-     * F09 exclui
-     * Esc Cancela
-     * 
+     * F10 grava ou altera. F02 abre uma consulta rapida para seleção de Pessoas
+     * e cidades existentes. F09 exclui Esc Cancela
+     *
      * @param evt evento a ser executado
      */
     private void BtnAction(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnAction
-        if (evt.getSource() == BtnCancelar)
-        {
+        if (evt.getSource() == BtnCancelar) {
             ID.setText("0");
             Nome.setText("");
             Razao.setText("");
@@ -600,98 +603,110 @@ public class CadPessoas extends javax.swing.JDialog {
             Documento1.setText("");
             Documento2.setText("");
         }
-        if (evt.getSource() == BtnConsultar)
-        {
+        if (evt.getSource() == BtnConsultar) {
             //aaa
         }
-        if (evt.getSource() == BtnExcluir)
-        {
-            if (!ID.getText().isEmpty())
-            {
-                try {
-                    ConexaoSQL.ExecSQL("delete from Pessoas where Pes_ID=" + ID.getText());
-                } catch (SQLException ex) {
-                    Logger.getLogger(CadPessoas.class.getName()).log(Level.SEVERE, null, ex);
-                }
+        if (evt.getSource() == BtnExcluir) {
+            if (!ID.getText().isEmpty()) {
+                PessoaManager.getInstance().delete(Pes_atual);
             }
 
             BtnCancelar.doClick();
         }
-        if (evt.getSource() == BtnOK)
-        {
-            if (ID.getText().isEmpty() || 
-                Nome.getText().isEmpty() ||
-                CodCidade.getText().isEmpty())
-            {
+        if (evt.getSource() == BtnOK) {
+            if (ID.getText().isEmpty()
+                    || Nome.getText().isEmpty()
+                    || CodCidade.getText().isEmpty()) {
                 JOptionPane.showMessageDialog(this, "Campos obrigatórios não preenchidos \n  Número e Descrição");
             }
-                   
+
             try {
-                if (ID.getText().isEmpty())
-                {    
-                    ConexaoSQL.ExecSQL("Insert");
+                Pes_atual.setNome(Nome.getText());
+                Pes_atual.setRazao(Razao.getText());
+                Pes_atual.setDocumento1(Documento1.getText());
+                Pes_atual.setDocumento2(Documento2.getText());
+                Pes_atual.setEndereco(Endereco.getText());
+                Pes_atual.setNumero(Numero.getText());
+                Pes_atual.setComplemento(Complemento.getText());
+                Pes_atual.setBairro(Bairro.getText());
+                Pes_atual.setId_Cidade(Integer.parseInt(CodCidade.getText()));
+                Pes_atual.setCEP(CEP.getText());
+                Pes_atual.setFone1(Fone1.getText());
+                Pes_atual.setFone2(Fone2.getText());
+                Pes_atual.setEmail(Email.getText());
+                Pes_atual.setNascimento(Date.valueOf(Nascimento.getText()));
+
+                if (ID.getText().isEmpty()) {
+                    PessoaManager.getInstance().add(Pes_atual);
+                } else {
+                    Pes_atual.setId(Integer.parseInt(ID.getText()));
+                    PessoaManager.getInstance().update(Pes_atual);
                 }
-                else
-                {
-                    ConexaoSQL.ExecSQL("Update");
-                }
-                    
-            } catch (SQLException ex) {
-                Logger.getLogger(CadCidades.class.getName()).log(Level.SEVERE, null, ex);
+            } finally {
             }
 
             BtnCancelar.doClick();
         }
-        
+
     }//GEN-LAST:event_BtnAction
 
     /**
-     * Metodo genérico ligado a todos campos com perda de foco.
-     * Executa as ações devidas de acordo com o campo que perdeu o foco.
+     * Metodo genérico ligado a todos campos com perda de foco. Executa as ações
+     * devidas de acordo com o campo que perdeu o foco.
      *
-     * No campo da ID, verifica a existencia da mesma, e carrega os dados.
-     * Em campos Text, executa um ajuste de caracteres, deixando as iniciais maiusculas
-     * 
+     * No campo da ID, verifica a existencia da mesma, e carrega os dados. Em
+     * campos Text, executa um ajuste de caracteres, deixando as iniciais
+     * maiusculas
+     *
      * @param evt evento a ser executado
      */
     private void FocusLostGen(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_FocusLostGen
-        if (evt.getComponent() == ID)
-        {
-            try 
-            {
-                ResultSet result = ConexaoSQL.RetornoSQL("Select * from Comodos where Com_ID=" + ID.getText());
+        if (evt.getComponent() == ID) {
+            if (!ID.getText().isEmpty()) {
 
-                Nome.setText(result.getString("Pes_Nome"));
-            } catch (SQLException ex) {
-                Logger.getLogger(CadCidades.class.getName()).log(Level.SEVERE, null, ex);
+                ArrayList<Pessoa> P1 = PessoaManager.getInstance().selecionar("Pes_ID=" + ID.getText());
+
+                if (!P1.isEmpty()) {
+                    Pes_atual = P1.get(1);
+                    ID.setText(String.valueOf(Pes_atual.getId()));
+                    Nome.setText(Pes_atual.getNome());
+                    Razao.setText(Pes_atual.getRazao());
+                    Endereco.setText(Pes_atual.getEndereco());
+                    Numero.setText(Pes_atual.getNumero());
+                    Bairro.setText(Pes_atual.getBairro());
+                    Complemento.setText(Pes_atual.getComplemento());
+                    CodCidade.setText(String.valueOf(Pes_atual.getId_Cidade()));
+                    CEP.setText(Pes_atual.getCEP());
+                    Fone1.setText(Pes_atual.getFone1());
+                    Fone2.setText(Pes_atual.getFone2());
+                    Email.setText(Pes_atual.getEmail());
+                    Nascimento.setText(String.valueOf(Pes_atual.getNascimento()));
+                    Documento1.setText(Pes_atual.getDocumento1());
+                    Documento2.setText(Pes_atual.getDocumento2());
+
+                }
             }
-            
-            if (Nome.getText().isEmpty()) 
-            {
+
+            if (Nome.getText().isEmpty()) {
                 ID.setText("");
             }
         }
-        if (evt.getComponent() == Nome)
-        {
+        if (evt.getComponent() == Nome) {
             Nome.setText(Utils.AjustaTexto(Nome.getText()));
         }
-        if (evt.getComponent() == Razao)
-        {
+        if (evt.getComponent() == Razao) {
             Razao.setText(Utils.AjustaTexto(Razao.getText()));
         }
-        if (evt.getComponent() == Endereco)
-        {
+        if (evt.getComponent() == Endereco) {
             Endereco.setText(Utils.AjustaTexto(Endereco.getText()));
         }
-        if (evt.getComponent() == Complemento)
-        {
+        if (evt.getComponent() == Complemento) {
             Complemento.setText(Utils.AjustaTexto(Complemento.getText()));
         }
-        if (evt.getComponent() == Bairro)
-        {
+        if (evt.getComponent() == Bairro) {
             Bairro.setText(Utils.AjustaTexto(Bairro.getText()));
         }
-        
+
     }//GEN-LAST:event_FocusLostGen
 
     /**

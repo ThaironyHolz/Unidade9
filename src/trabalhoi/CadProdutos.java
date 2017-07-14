@@ -5,27 +5,31 @@
  */
 package trabalhoi;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import Manager.ProdutoManager;
+import Model.Produto;
+import java.math.BigDecimal;
+import java.text.DecimalFormat;
+import java.util.ArrayList;
 import javax.swing.JOptionPane;
 
 /**
  * Cria o cadastro de produtos
+ *
  * @author Christian
  */
 public class CadProdutos extends javax.swing.JDialog {
 
+    Produto Prd_atual = new Produto();
+
     /**
      * Creates new form CadPessoas
-     * 
+     *
      * cria o Form do cadastro
      */
     public CadProdutos(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
-        
+
         this.setTitle("Cadastro de Produtos");
         BtnCancelar.doClick();
     }
@@ -395,19 +399,16 @@ public class CadProdutos extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     /**
-     * Metodo generico de todos cliques em botões
-     * Executa as ações devidas de acordo com o botão clicado.
+     * Metodo generico de todos cliques em botões Executa as ações devidas de
+     * acordo com o botão clicado.
      *
-     * F10 grava ou altera.
-     * F02 abre uma consulta rapida para seleção de Produtos e Fornecedores (clientes) existentes.
-     * F09 exclui
-     * Esc Cancela
-     * 
+     * F10 grava ou altera. F02 abre uma consulta rapida para seleção de
+     * Produtos e Fornecedores (clientes) existentes. F09 exclui Esc Cancela
+     *
      * @param evt evento a ser executado
      */
     private void BtnAction(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnAction
-        if (evt.getSource() == BtnCancelar)
-        {
+        if (evt.getSource() == BtnCancelar) {
             ID.setText("0");
             Nome.setText("");
             Referencia.setText("");
@@ -418,96 +419,92 @@ public class CadProdutos extends javax.swing.JDialog {
             VlrCusto.setText("0");
             CodFornecedor.setText("0");
         }
-        if (evt.getSource() == BtnConsultar)
-        {
+        if (evt.getSource() == BtnConsultar) {
             //aaa
         }
-        if (evt.getSource() == BtnExcluir)
-        {
-            if (!ID.getText().isEmpty())
-            {
-                try {
-                    ConexaoSQL.ExecSQL("delete from Produtos where Prd_ID=" + ID.getText());
-                } catch (SQLException ex) {
-                    Logger.getLogger(CadProdutos.class.getName()).log(Level.SEVERE, null, ex);
-                }
+        if (evt.getSource() == BtnExcluir) {
+            if (!ID.getText().isEmpty()) {
+                ProdutoManager.getInstance().delete(Prd_atual);
             }
 
             BtnCancelar.doClick();
         }
-        if (evt.getSource() == BtnOK)
-        {
-            if (ID.getText().isEmpty() || 
-                Nome.getText().isEmpty())
-            {
+        if (evt.getSource() == BtnOK) {
+            if (ID.getText().isEmpty()
+                    || Nome.getText().isEmpty()) {
                 JOptionPane.showMessageDialog(this, "Campos obrigatórios não preenchidos \n  Código e Nome");
             }
-                   
+
             try {
-                if (ID.getText().isEmpty())
-                {    
-                    ConexaoSQL.ExecSQL("Insert into Produtos " +
-                            "(Prd_nome, Prd_referencia, Prd_unidade, Prd_Id_Pessoa, Prd_NCM, " + 
-                            "Prd_Estoque, Prd_Venda, Prd_Custo) values (" +
-                            Nome.getText() + ", " );
+                DecimalFormat format = new DecimalFormat("##,#0.00");
+                format.setParseBigDecimal(true);
+                
+                Prd_atual.setNome(Nome.getText());
+                Prd_atual.setReferencia(Referencia.getText());
+                Prd_atual.setUnidade(Unidade.getText());
+                Prd_atual.setNCM(NCM.getText());
+                Prd_atual.setId_Pessoa(Integer.parseInt(CodFornecedor.getText()));
+                Prd_atual.setEstoque((BigDecimal)format.parseObject(QtdEstoque.getText()));
+                Prd_atual.setVenda((BigDecimal)format.parseObject(VlrVenda.getText()));
+                Prd_atual.setCusto((BigDecimal)format.parseObject(VlrCusto.getText()));
+
+                if (ID.getText().isEmpty()) {
+                    ProdutoManager.getInstance().add(Prd_atual);
+                } else {
+                    Prd_atual.setID(Integer.parseInt(ID.getText()));
+                    ProdutoManager.getInstance().update(Prd_atual);
                 }
-                else
-                {
-                    ConexaoSQL.ExecSQL("Update");
-                }
-                    
-            } catch (SQLException ex) {
-                Logger.getLogger(CadProdutos.class.getName()).log(Level.SEVERE, null, ex);
+                
+            } catch (Exception e) {
+                e.printStackTrace();
             }
 
             BtnCancelar.doClick();
         }
-        
+
     }//GEN-LAST:event_BtnAction
 
     /**
-     * Metodo genérico ligado a todos campos com perda de foco.
-     * Executa as ações devidas de acordo com o campo que perdeu o foco.
+     * Metodo genérico ligado a todos campos com perda de foco. Executa as ações
+     * devidas de acordo com o campo que perdeu o foco.
      *
-     * No campo da ID, verifica a existencia da mesma, e carrega os dados.
-     * Em campos Text, executa um ajuste de caracteres, deixando as iniciais maiusculas
-     * 
+     * No campo da ID, verifica a existencia da mesma, e carrega os dados. Em
+     * campos Text, executa um ajuste de caracteres, deixando as iniciais
+     * maiusculas
+     *
      * @param evt evento a ser executado
      */
     private void FocusLostGen(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_FocusLostGen
-        if (evt.getComponent() == ID)
-        {
-            try 
-            {
-                ResultSet result = ConexaoSQL.RetornoSQL("Select * from Produtos where Prd_ID=" + ID.getText());
+        if (evt.getComponent() == ID) {
+            if (!ID.getText().isEmpty()) {
 
-                Nome.setText(result.getString("Prd_Nome"));
-                Referencia.setText(result.getString("Prd_referencia"));
-                Unidade.setText(result.getString("Prd_unidade"));
-                NCM.setText(result.getString("Prd_ncm"));
-                CodFornecedor.setText(result.getString("Prd_id_Pessoa"));
-                QtdEstoque.setText(result.getString("Prd_Estoque"));
-                VlrVenda.setText(result.getString("Prd_Venda"));
-                VlrCusto.setText(result.getString("Prd_Custo"));
-            } catch (SQLException ex) {
-                Logger.getLogger(CadProdutos.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            
-            if (Nome.getText().isEmpty()) 
-            {
-                ID.setText("");
+                ArrayList<Produto> P1 = ProdutoManager.getInstance().selecionar("Prd_ID=" + ID.getText());
+
+                if (!P1.isEmpty()) {
+                    Prd_atual = P1.get(1);
+
+                    Nome.setText(Prd_atual.getNome());
+                    Referencia.setText(Prd_atual.getReferencia());
+                    Unidade.setText(Prd_atual.getUnidade());
+                    NCM.setText(Prd_atual.getNCM());
+                    CodFornecedor.setText(String.valueOf(Prd_atual.getId_Pessoa()));
+                    QtdEstoque.setText(String.valueOf(Prd_atual.getEstoque()));
+                    VlrVenda.setText(String.valueOf(Prd_atual.getVenda()));
+                    VlrCusto.setText(String.valueOf(Prd_atual.getCusto()));
+                }
+
+                if (Nome.getText().isEmpty()) {
+                    ID.setText("");
+                }
             }
         }
-        if (evt.getComponent() == Nome)
-        {
+        if (evt.getComponent() == Nome) {
             Nome.setText(Utils.AjustaTexto(Nome.getText()));
         }
-        if (evt.getComponent() == Referencia)
-        {
+        if (evt.getComponent() == Referencia) {
             Referencia.setText(Utils.AjustaTexto(Referencia.getText()));
         }
-        if (evt.getComponent() == Unidade)
-        {
+        if (evt.getComponent() == Unidade) {
             Unidade.setText(Utils.AjustaTexto(Unidade.getText()));
         }
     }//GEN-LAST:event_FocusLostGen
