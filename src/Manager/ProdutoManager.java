@@ -91,7 +91,7 @@ public class ProdutoManager {
         }
                 
         try (ConexaoPostgre db = ConexaoPostgre.getInstance()) {
-            PreparedStatement ps = db.prepareStatement("SELECT * FROM Produtos where " + condicao);
+            PreparedStatement ps = db.prepareStatement("SELECT * FROM Produtos " + condicao);
             ResultSet rs = ps.executeQuery();
 
             while (rs.next()) {

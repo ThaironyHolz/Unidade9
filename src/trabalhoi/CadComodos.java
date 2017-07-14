@@ -10,6 +10,7 @@ import Model.Comodo;
 import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -22,13 +23,14 @@ import javax.swing.JOptionPane;
 public class CadComodos extends javax.swing.JDialog {
 
     Comodo Com_atual = new Comodo();
+
     /**
      * Creates new form CadComodos
      */
     public CadComodos(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
-        
+
         this.setTitle("Cadastro de Cômodos");
         BtnCancelar.doClick();
     }
@@ -53,7 +55,6 @@ public class CadComodos extends javax.swing.JDialog {
         Diaria = new javax.swing.JFormattedTextField();
         jPanel1 = new javax.swing.JPanel();
         BtnCancelar = new javax.swing.JButton();
-        BtnConsultar = new javax.swing.JButton();
         BtnExcluir = new javax.swing.JButton();
         BtnOK = new javax.swing.JButton();
 
@@ -160,13 +161,6 @@ public class CadComodos extends javax.swing.JDialog {
             }
         });
 
-        BtnConsultar.setText("F02 Consultar");
-        BtnConsultar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                BtnAction(evt);
-            }
-        });
-
         BtnExcluir.setText("F09 Excluir");
         BtnExcluir.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -186,7 +180,6 @@ public class CadComodos extends javax.swing.JDialog {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(BtnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-            .addComponent(BtnConsultar, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
             .addComponent(BtnExcluir, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
             .addComponent(BtnOK, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
@@ -194,9 +187,7 @@ public class CadComodos extends javax.swing.JDialog {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addComponent(BtnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(BtnConsultar, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(52, 52, 52)
                 .addComponent(BtnExcluir, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(BtnOK, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -214,17 +205,17 @@ public class CadComodos extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     /**
-     * Metodo genérico ligado a todos campos com perda de foco.
-     * Executa as ações devidas de acordo com o campo que perdeu o foco.
+     * Metodo genérico ligado a todos campos com perda de foco. Executa as ações
+     * devidas de acordo com o campo que perdeu o foco.
      *
-     * No campo da ID, verifica a existencia da mesma, e carrega os dados.
-     * Em campos Text, executa um ajuste de caracteres, deixando as iniciais maiusculas
-     * 
+     * No campo da ID, verifica a existencia da mesma, e carrega os dados. Em
+     * campos Text, executa um ajuste de caracteres, deixando as iniciais
+     * maiusculas
+     *
      * @param evt evento a ser executado
      */
     private void focusLostGen(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_focusLostGen
-        if (evt.getComponent() == ID)
-        {
+        if (evt.getComponent() == ID) {
             if (!ID.getText().isEmpty()) {
 
                 ArrayList<Comodo> C1 = ComodoManager.getInstance().selecionar("Com_ID=" + ID.getText());
@@ -237,69 +228,61 @@ public class CadComodos extends javax.swing.JDialog {
                     Diaria.setText(String.valueOf(Com_atual.getDiaria()));
                 }
             }
-            
-            if (Descricao.getText().isEmpty()) 
-            {
+
+            if (Descricao.getText().isEmpty()) {
                 ID.setText("");
             }
         }
-        if (evt.getComponent() == Descricao)
-        {
+        if (evt.getComponent() == Descricao) {
             Descricao.setText(Utils.AjustaTexto(Descricao.getText()));
         }
 
     }//GEN-LAST:event_focusLostGen
 
     /**
-     * Metodo generico de todos cliques em botões
-     * Executa as ações devidas de acordo com o botão clicado.
+     * Metodo generico de todos cliques em botões Executa as ações devidas de
+     * acordo com o botão clicado.
      *
-     * F10 grava ou altera.
-     * F02 abre uma consulta rapida para seleção de Comodos existentes.
-     * F09 exclui
-     * Esc Cancela
-     * 
+     * F10 grava ou altera. F02 abre uma consulta rapida para seleção de Comodos
+     * existentes. F09 exclui Esc Cancela
+     *
      * @param evt evento a ser executado
      */
     private void BtnAction(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnAction
-        if (evt.getSource() == BtnCancelar)
-        {
+        if (evt.getSource() == BtnCancelar) {
             ID.setText("0");
             Descricao.setText("");
             Maximo.setText("0");
             Diaria.setText("0.0");
         }
-        if (evt.getSource() == BtnConsultar)
-        {
-        }
-        if (evt.getSource() == BtnExcluir)
-        {
-            if (!ID.getText().isEmpty())
-            {
+        if (evt.getSource() == BtnExcluir) {
+            if (!ID.getText().isEmpty()) {
                 ComodoManager.getInstance().delete(Com_atual);
             }
 
             BtnCancelar.doClick();
         }
-        if (evt.getSource() == BtnOK)
-        {
-            if (Descricao.getText().isEmpty())
-            {
+        if (evt.getSource() == BtnOK) {
+            if (Descricao.getText().isEmpty()) {
                 JOptionPane.showMessageDialog(this, "Campos obrigatórios não preenchidos: Descrição");
             }
-                   
+
             try {
+                DecimalFormat format = new DecimalFormat("##,#0.00");
+                format.setParseBigDecimal(true);
+
                 Com_atual.setDescricao(Descricao.getText());
                 Com_atual.setMaxpessoas(Integer.parseInt(Maximo.getText()));
-                //Com_atual.setDiaria((Diaria.getText()));
-                
+                Com_atual.setDiaria((BigDecimal) format.parseObject(Diaria.getText()));
+
                 if (ID.getText().isEmpty()) {
                     ComodoManager.getInstance().add(Com_atual);
                 } else {
                     Com_atual.setId(Integer.parseInt(ID.getText()));
                     ComodoManager.getInstance().update(Com_atual);
                 }
-            } finally {
+            } catch (Exception e) {
+                e.printStackTrace();
             }
 
             BtnCancelar.doClick();
@@ -350,7 +333,6 @@ public class CadComodos extends javax.swing.JDialog {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton BtnCancelar;
-    private javax.swing.JButton BtnConsultar;
     private javax.swing.JButton BtnExcluir;
     private javax.swing.JButton BtnOK;
     private javax.swing.JTextField Descricao;

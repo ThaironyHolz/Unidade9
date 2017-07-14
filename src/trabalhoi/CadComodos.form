@@ -129,7 +129,6 @@
         <DimensionLayout dim="0">
           <Group type="103" groupAlignment="0" attributes="0">
               <Component id="BtnCancelar" min="-2" pref="120" max="-2" attributes="0"/>
-              <Component id="BtnConsultar" min="-2" pref="120" max="-2" attributes="0"/>
               <Component id="BtnExcluir" min="-2" pref="120" max="-2" attributes="0"/>
               <Component id="BtnOK" min="-2" pref="120" max="-2" attributes="0"/>
           </Group>
@@ -138,9 +137,7 @@
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="0" attributes="0">
                   <Component id="BtnCancelar" min="-2" pref="40" max="-2" attributes="0"/>
-                  <EmptySpace max="-2" attributes="0"/>
-                  <Component id="BtnConsultar" min="-2" pref="40" max="-2" attributes="0"/>
-                  <EmptySpace max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="52" max="-2" attributes="0"/>
                   <Component id="BtnExcluir" min="-2" pref="40" max="-2" attributes="0"/>
                   <EmptySpace max="32767" attributes="0"/>
                   <Component id="BtnOK" min="-2" pref="40" max="-2" attributes="0"/>
@@ -152,14 +149,6 @@
         <Component class="javax.swing.JButton" name="BtnCancelar">
           <Properties>
             <Property name="text" type="java.lang.String" value="ESC Cancelar"/>
-          </Properties>
-          <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="BtnAction"/>
-          </Events>
-        </Component>
-        <Component class="javax.swing.JButton" name="BtnConsultar">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="F02 Consultar"/>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="BtnAction"/>

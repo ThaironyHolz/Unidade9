@@ -36,7 +36,7 @@ public class CadPessoas extends javax.swing.JDialog {
         this.setTitle("Cadastro de Pessoas");
         BtnCancelar.doClick();
 
-        ArrayList<Cidade> cidades = CidadeManager.getInstance().selecionar("1=1");
+        ArrayList<Cidade> cidades = CidadeManager.getInstance().selecionar("");
         Cidade.setModel(new DefaultComboBoxModel<>(cidades.toArray(new Cidade[cidades.size()])));
     }
 
@@ -80,7 +80,6 @@ public class CadPessoas extends javax.swing.JDialog {
         Numero = new javax.swing.JTextField();
         jPanel1 = new javax.swing.JPanel();
         BtnCancelar = new javax.swing.JButton();
-        BtnConsultar = new javax.swing.JButton();
         BtnExcluir = new javax.swing.JButton();
         BtnOK = new javax.swing.JButton();
         Cidade = new javax.swing.JComboBox<>();
@@ -493,13 +492,6 @@ public class CadPessoas extends javax.swing.JDialog {
             }
         });
 
-        BtnConsultar.setText("F02 Consultar");
-        BtnConsultar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                BtnAction(evt);
-            }
-        });
-
         BtnExcluir.setText("F09 Excluir");
         BtnExcluir.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -519,7 +511,6 @@ public class CadPessoas extends javax.swing.JDialog {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(BtnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-            .addComponent(BtnConsultar, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
             .addComponent(BtnExcluir, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
             .addComponent(BtnOK, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
@@ -527,9 +518,7 @@ public class CadPessoas extends javax.swing.JDialog {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addComponent(BtnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(BtnConsultar, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(52, 52, 52)
                 .addComponent(BtnExcluir, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(BtnOK, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -547,6 +536,9 @@ public class CadPessoas extends javax.swing.JDialog {
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 8;
+        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.insets = new java.awt.Insets(0, 10, 10, 0);
         getContentPane().add(Cidade, gridBagConstraints);
 
         pack();
@@ -578,9 +570,6 @@ public class CadPessoas extends javax.swing.JDialog {
             Documento1.setText("");
             Documento2.setText("");
 
-        }
-        if (evt.getSource() == BtnConsultar) {
-            //aaa
         }
         if (evt.getSource() == BtnExcluir) {
             if (!ID.getText().isEmpty()) {
@@ -651,7 +640,7 @@ public class CadPessoas extends javax.swing.JDialog {
                     Numero.setText(Pes_atual.getNumero());
                     Bairro.setText(Pes_atual.getBairro());
                     Complemento.setText(Pes_atual.getComplemento());
-//                    Cidade.setSelectedItem(); // arruma
+                    //Cidade.setSelectedItem();
                     CEP.setText(Pes_atual.getCEP());
                     Fone1.setText(Pes_atual.getFone1());
                     Fone2.setText(Pes_atual.getFone2());
@@ -729,7 +718,6 @@ public class CadPessoas extends javax.swing.JDialog {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField Bairro;
     private javax.swing.JButton BtnCancelar;
-    private javax.swing.JButton BtnConsultar;
     private javax.swing.JButton BtnExcluir;
     private javax.swing.JButton BtnOK;
     private javax.swing.JTextField CEP;

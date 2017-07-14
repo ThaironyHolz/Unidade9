@@ -78,11 +78,11 @@ public class PagamentoManager {
         ArrayList<Pagamento> Pag = new ArrayList<Pagamento>();
         
         if (!condicao.isEmpty()) {
-            condicao = " where " + condicao;
+            condicao = "where " + condicao;
         }
                 
         try (ConexaoPostgre db = ConexaoPostgre.getInstance()) {
-            PreparedStatement ps = db.prepareStatement("SELECT * FROM Pagamentos where " + condicao);
+            PreparedStatement ps = db.prepareStatement("SELECT * FROM Pagamentos " + condicao);
             ResultSet rs = ps.executeQuery();
 
             while (rs.next()) {

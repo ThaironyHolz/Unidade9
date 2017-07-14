@@ -84,7 +84,7 @@ public class ReservaPesManager {
         }
                 
         try (ConexaoPostgre db = ConexaoPostgre.getInstance()) {
-            PreparedStatement ps = db.prepareStatement("SELECT * FROM Reserva_Pessoas where " + condicao);
+            PreparedStatement ps = db.prepareStatement("SELECT * FROM Reserva_Pessoas " + condicao);
             ResultSet rs = ps.executeQuery();
 
             while (rs.next()) {

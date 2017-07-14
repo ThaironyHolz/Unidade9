@@ -6,10 +6,14 @@
 package trabalhoi;
 
 import Manager.DocumentoManager;
+import Manager.PessoaManager;
 import Model.Documento;
+import Model.Pessoa;
 import java.math.BigDecimal;
+import java.sql.Date;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
 
 /**
@@ -30,8 +34,11 @@ public class Documentos extends javax.swing.JDialog {
         super(parent, modal);
         initComponents();
 
-        this.setTitle("Cadastro de Documentos");
+        this.setTitle("Lancamento de Documentos");
         BtnCancelar.doClick();
+
+        ArrayList<Pessoa> pessoas = PessoaManager.getInstance().selecionar("");
+        Pessoa.setModel(new DefaultComboBoxModel<>(pessoas.toArray(new Pessoa[pessoas.size()])));
     }
 
     /**
@@ -47,27 +54,19 @@ public class Documentos extends javax.swing.JDialog {
         jLabel1 = new javax.swing.JLabel();
         ID = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
-        Nome = new javax.swing.JTextField();
+        Pagamento = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
-        Referencia = new javax.swing.JTextField();
-        Unidade = new javax.swing.JTextField();
+        Documento = new javax.swing.JTextField();
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
-        jLabel9 = new javax.swing.JLabel();
-        NomeFornecedor = new javax.swing.JTextField();
-        CodFornecedor = new javax.swing.JTextField();
-        jLabel10 = new javax.swing.JLabel();
-        jLabel11 = new javax.swing.JLabel();
-        QtdEstoque = new javax.swing.JTextField();
-        VlrVenda = new javax.swing.JTextField();
-        VlrCusto = new javax.swing.JTextField();
-        NCM = new javax.swing.JTextField();
+        Total = new javax.swing.JTextField();
         jPanel1 = new javax.swing.JPanel();
         BtnCancelar = new javax.swing.JButton();
-        BtnConsultar = new javax.swing.JButton();
         BtnExcluir = new javax.swing.JButton();
         BtnOK = new javax.swing.JButton();
+        Pessoa = new javax.swing.JComboBox<>();
+        Emissao = new javax.swing.JFormattedTextField();
+        jLabel13 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         getContentPane().setLayout(new java.awt.GridBagLayout());
@@ -96,36 +95,36 @@ public class Documentos extends javax.swing.JDialog {
         gridBagConstraints.insets = new java.awt.Insets(15, 10, 10, 0);
         getContentPane().add(ID, gridBagConstraints);
 
-        jLabel2.setText("Nome");
+        jLabel2.setText("Forma Pag");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridy = 8;
         gridBagConstraints.ipadx = 1;
         gridBagConstraints.ipady = 1;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.FIRST_LINE_START;
         gridBagConstraints.insets = new java.awt.Insets(0, 15, 10, 0);
         getContentPane().add(jLabel2, gridBagConstraints);
 
-        Nome.setMaximumSize(new java.awt.Dimension(300, 20));
-        Nome.setMinimumSize(new java.awt.Dimension(300, 20));
-        Nome.setPreferredSize(new java.awt.Dimension(300, 20));
-        Nome.addFocusListener(new java.awt.event.FocusAdapter() {
+        Pagamento.setMaximumSize(new java.awt.Dimension(300, 20));
+        Pagamento.setMinimumSize(new java.awt.Dimension(300, 20));
+        Pagamento.setPreferredSize(new java.awt.Dimension(300, 20));
+        Pagamento.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
                 FocusLostGen(evt);
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridy = 8;
         gridBagConstraints.gridwidth = 3;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.ipadx = 1;
         gridBagConstraints.ipady = 1;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.FIRST_LINE_START;
         gridBagConstraints.insets = new java.awt.Insets(0, 10, 10, 0);
-        getContentPane().add(Nome, gridBagConstraints);
+        getContentPane().add(Pagamento, gridBagConstraints);
 
-        jLabel3.setText("Referencia");
+        jLabel3.setText("Documento");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 3;
@@ -135,20 +134,10 @@ public class Documentos extends javax.swing.JDialog {
         gridBagConstraints.insets = new java.awt.Insets(0, 15, 10, 0);
         getContentPane().add(jLabel3, gridBagConstraints);
 
-        jLabel4.setText("Unidade");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 4;
-        gridBagConstraints.ipadx = 1;
-        gridBagConstraints.ipady = 1;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.FIRST_LINE_START;
-        gridBagConstraints.insets = new java.awt.Insets(0, 15, 10, 0);
-        getContentPane().add(jLabel4, gridBagConstraints);
-
-        Referencia.setMaximumSize(new java.awt.Dimension(100, 20));
-        Referencia.setMinimumSize(new java.awt.Dimension(100, 20));
-        Referencia.setPreferredSize(new java.awt.Dimension(100, 20));
-        Referencia.addFocusListener(new java.awt.event.FocusAdapter() {
+        Documento.setMaximumSize(new java.awt.Dimension(100, 20));
+        Documento.setMinimumSize(new java.awt.Dimension(100, 20));
+        Documento.setPreferredSize(new java.awt.Dimension(100, 20));
+        Documento.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
                 FocusLostGen(evt);
             }
@@ -161,153 +150,32 @@ public class Documentos extends javax.swing.JDialog {
         gridBagConstraints.ipady = 1;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.FIRST_LINE_START;
         gridBagConstraints.insets = new java.awt.Insets(0, 10, 10, 0);
-        getContentPane().add(Referencia, gridBagConstraints);
+        getContentPane().add(Documento, gridBagConstraints);
 
-        Unidade.setMaximumSize(new java.awt.Dimension(100, 20));
-        Unidade.setMinimumSize(new java.awt.Dimension(100, 20));
-        Unidade.setPreferredSize(new java.awt.Dimension(100, 20));
-        Unidade.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                FocusLostGen(evt);
-            }
-        });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 4;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.ipadx = 1;
-        gridBagConstraints.ipady = 1;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.FIRST_LINE_START;
-        gridBagConstraints.insets = new java.awt.Insets(0, 10, 10, 0);
-        getContentPane().add(Unidade, gridBagConstraints);
-
-        jLabel7.setText("Fornecedor");
+        jLabel7.setText("Cliente");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 8;
+        gridBagConstraints.gridy = 9;
         gridBagConstraints.ipadx = 1;
         gridBagConstraints.ipady = 1;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.FIRST_LINE_START;
         gridBagConstraints.insets = new java.awt.Insets(0, 15, 10, 0);
         getContentPane().add(jLabel7, gridBagConstraints);
 
-        jLabel8.setText("Qtd. Estoque");
+        jLabel8.setText("Total");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 9;
+        gridBagConstraints.gridy = 11;
         gridBagConstraints.ipadx = 1;
         gridBagConstraints.ipady = 1;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.FIRST_LINE_START;
         gridBagConstraints.insets = new java.awt.Insets(0, 15, 10, 0);
         getContentPane().add(jLabel8, gridBagConstraints);
 
-        jLabel9.setText("NCM");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 5;
-        gridBagConstraints.ipadx = 1;
-        gridBagConstraints.ipady = 1;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.FIRST_LINE_START;
-        gridBagConstraints.insets = new java.awt.Insets(0, 15, 10, 0);
-        getContentPane().add(jLabel9, gridBagConstraints);
-
-        NomeFornecedor.setEditable(false);
-        NomeFornecedor.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                FocusLostGen(evt);
-            }
-        });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 8;
-        gridBagConstraints.gridwidth = 2;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.ipadx = 1;
-        gridBagConstraints.ipady = 1;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.FIRST_LINE_START;
-        gridBagConstraints.insets = new java.awt.Insets(0, 10, 10, 0);
-        getContentPane().add(NomeFornecedor, gridBagConstraints);
-
-        CodFornecedor.setMaximumSize(new java.awt.Dimension(100, 20));
-        CodFornecedor.setMinimumSize(new java.awt.Dimension(80, 20));
-        CodFornecedor.setPreferredSize(new java.awt.Dimension(80, 20));
-        CodFornecedor.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                FocusLostGen(evt);
-            }
-        });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 8;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.ipadx = 1;
-        gridBagConstraints.ipady = 1;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.FIRST_LINE_START;
-        gridBagConstraints.insets = new java.awt.Insets(0, 10, 10, 0);
-        getContentPane().add(CodFornecedor, gridBagConstraints);
-
-        jLabel10.setText("Vlr. Venda");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 10;
-        gridBagConstraints.ipadx = 1;
-        gridBagConstraints.ipady = 1;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.FIRST_LINE_START;
-        gridBagConstraints.insets = new java.awt.Insets(0, 15, 10, 0);
-        getContentPane().add(jLabel10, gridBagConstraints);
-
-        jLabel11.setText("Vlr. Custo");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 11;
-        gridBagConstraints.ipadx = 1;
-        gridBagConstraints.ipady = 1;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.FIRST_LINE_START;
-        gridBagConstraints.insets = new java.awt.Insets(0, 15, 10, 0);
-        getContentPane().add(jLabel11, gridBagConstraints);
-
-        QtdEstoque.setMaximumSize(new java.awt.Dimension(100, 20));
-        QtdEstoque.setMinimumSize(new java.awt.Dimension(80, 20));
-        QtdEstoque.setPreferredSize(new java.awt.Dimension(80, 20));
-        QtdEstoque.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                FocusLostGen(evt);
-            }
-        });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 9;
-        gridBagConstraints.gridwidth = 2;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.ipadx = 1;
-        gridBagConstraints.ipady = 1;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.FIRST_LINE_START;
-        gridBagConstraints.insets = new java.awt.Insets(0, 10, 10, 0);
-        getContentPane().add(QtdEstoque, gridBagConstraints);
-
-        VlrVenda.setMaximumSize(new java.awt.Dimension(150, 20));
-        VlrVenda.setMinimumSize(new java.awt.Dimension(150, 20));
-        VlrVenda.setPreferredSize(new java.awt.Dimension(150, 20));
-        VlrVenda.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                FocusLostGen(evt);
-            }
-        });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 10;
-        gridBagConstraints.gridwidth = 2;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.ipadx = 1;
-        gridBagConstraints.ipady = 1;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.FIRST_LINE_START;
-        gridBagConstraints.insets = new java.awt.Insets(0, 10, 10, 0);
-        getContentPane().add(VlrVenda, gridBagConstraints);
-
-        VlrCusto.setMaximumSize(new java.awt.Dimension(150, 20));
-        VlrCusto.setMinimumSize(new java.awt.Dimension(150, 20));
-        VlrCusto.setPreferredSize(new java.awt.Dimension(150, 20));
-        VlrCusto.addFocusListener(new java.awt.event.FocusAdapter() {
+        Total.setMaximumSize(new java.awt.Dimension(100, 20));
+        Total.setMinimumSize(new java.awt.Dimension(80, 20));
+        Total.setPreferredSize(new java.awt.Dimension(80, 20));
+        Total.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
                 FocusLostGen(evt);
             }
@@ -321,32 +189,10 @@ public class Documentos extends javax.swing.JDialog {
         gridBagConstraints.ipady = 1;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.FIRST_LINE_START;
         gridBagConstraints.insets = new java.awt.Insets(0, 10, 10, 0);
-        getContentPane().add(VlrCusto, gridBagConstraints);
-
-        NCM.setMaximumSize(new java.awt.Dimension(100, 20));
-        NCM.setMinimumSize(new java.awt.Dimension(80, 20));
-        NCM.setPreferredSize(new java.awt.Dimension(80, 20));
-        NCM.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                FocusLostGen(evt);
-            }
-        });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 5;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.insets = new java.awt.Insets(0, 10, 10, 0);
-        getContentPane().add(NCM, gridBagConstraints);
+        getContentPane().add(Total, gridBagConstraints);
 
         BtnCancelar.setText("ESC Cancelar");
         BtnCancelar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                BtnAction(evt);
-            }
-        });
-
-        BtnConsultar.setText("F02 Consultar");
-        BtnConsultar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 BtnAction(evt);
             }
@@ -371,7 +217,6 @@ public class Documentos extends javax.swing.JDialog {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(BtnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-            .addComponent(BtnConsultar, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
             .addComponent(BtnExcluir, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
             .addComponent(BtnOK, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
@@ -379,21 +224,58 @@ public class Documentos extends javax.swing.JDialog {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addComponent(BtnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(BtnConsultar, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(52, 52, 52)
                 .addComponent(BtnExcluir, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(BtnOK, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 9;
-        gridBagConstraints.gridy = 5;
-        gridBagConstraints.gridheight = 7;
+        gridBagConstraints.gridx = 4;
+        gridBagConstraints.gridy = 6;
+        gridBagConstraints.gridheight = 6;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(0, 10, 15, 15);
         getContentPane().add(jPanel1, gridBagConstraints);
+
+        Pessoa.setName(""); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 9;
+        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.insets = new java.awt.Insets(0, 10, 10, 0);
+        getContentPane().add(Pessoa, gridBagConstraints);
+
+        Emissao.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter()));
+        Emissao.setMaximumSize(new java.awt.Dimension(100, 20));
+        Emissao.setMinimumSize(new java.awt.Dimension(80, 20));
+        Emissao.setPreferredSize(new java.awt.Dimension(80, 20));
+        Emissao.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                EmissaoFocusLostGen(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.ipadx = 1;
+        gridBagConstraints.ipady = 1;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.FIRST_LINE_START;
+        gridBagConstraints.insets = new java.awt.Insets(0, 10, 15, 0);
+        getContentPane().add(Emissao, gridBagConstraints);
+
+        jLabel13.setText("Emissao");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.ipadx = 1;
+        gridBagConstraints.ipady = 1;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.FIRST_LINE_START;
+        gridBagConstraints.insets = new java.awt.Insets(0, 15, 15, 0);
+        getContentPane().add(jLabel13, gridBagConstraints);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -410,17 +292,10 @@ public class Documentos extends javax.swing.JDialog {
     private void BtnAction(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnAction
         if (evt.getSource() == BtnCancelar) {
             ID.setText("0");
-            Nome.setText("");
-            Referencia.setText("");
-            Unidade.setText("");
-            CodFornecedor.setText("");
-            QtdEstoque.setText("0");
-            VlrVenda.setText("0");
-            VlrCusto.setText("0");
-            CodFornecedor.setText("0");
-        }
-        if (evt.getSource() == BtnConsultar) {
-            //aaa
+            Documento.setText("");
+            Pagamento.setText("");
+            Total.setText("0");
+            Emissao.setText("");
         }
         if (evt.getSource() == BtnExcluir) {
             if (!ID.getText().isEmpty()) {
@@ -430,7 +305,7 @@ public class Documentos extends javax.swing.JDialog {
             BtnCancelar.doClick();
         }
         if (evt.getSource() == BtnOK) {
-            if (Nome.getText().isEmpty()) {
+            if (Pagamento.getText().isEmpty()) {
                 JOptionPane.showMessageDialog(this, "Campos obrigatórios não preenchidos: Nome");
             }
 
@@ -438,19 +313,20 @@ public class Documentos extends javax.swing.JDialog {
                 DecimalFormat format = new DecimalFormat("##,#0.00");
                 format.setParseBigDecimal(true);
 
-                Doc_atual.setNome(Nome.getText());
-                Doc_atual.setReferencia(Referencia.getText());
-                Doc_atual.setUnidade(Unidade.getText());
-                Doc_atual.setNCM(NCM.getText());
-                Doc_atual.setId_Pessoa(Integer.parseInt(CodFornecedor.getText()));
-                Doc_atual.setEstoque((BigDecimal) format.parseObject(QtdEstoque.getText()));
-                Doc_atual.setVenda((BigDecimal) format.parseObject(VlrVenda.getText()));
-                Doc_atual.setCusto((BigDecimal) format.parseObject(VlrCusto.getText()));
+                Doc_atual.setDocumento(Documento.getText());
+                Doc_atual.setMeio(Pagamento.getText());
+                Doc_atual.setTotal((BigDecimal) format.parseObject(Total.getText()));
+
+                if (!Emissao.getText().startsWith("/")) {
+                    Doc_atual.setEmissao(Date.valueOf(Emissao.getText()));
+                }
+
+                Doc_atual.setPessoaId(((Pessoa) Pessoa.getSelectedItem()).getId());
 
                 if (ID.getText().isEmpty()) {
                     DocumentoManager.getInstance().add(Doc_atual);
                 } else {
-                    Doc_atual.setID(Integer.parseInt(ID.getText()));
+                    Doc_atual.setId(Integer.parseInt(ID.getText()));
                     DocumentoManager.getInstance().update(Doc_atual);
                 }
 
@@ -477,36 +353,55 @@ public class Documentos extends javax.swing.JDialog {
         if (evt.getComponent() == ID) {
             if (!ID.getText().isEmpty()) {
 
-                ArrayList<Documento> P1 = DocumentoManager.getInstance().selecionar("Doc_ID=" + ID.getText());
+                ArrayList<Documento> D1 = DocumentoManager.getInstance().Selecionar("Doc_ID=" + ID.getText());
 
-                if (!P1.isEmpty()) {
-                    Doc_atual = P1.get(0);
+                if (!D1.isEmpty()) {
+                    Doc_atual = D1.get(0);
 
-                    Nome.setText(Doc_atual.getNome());
-                    Referencia.setText(Doc_atual.getReferencia());
-                    Unidade.setText(Doc_atual.getUnidade());
-                    NCM.setText(Doc_atual.getNCM());
-                    CodFornecedor.setText(String.valueOf(Doc_atual.getId_Pessoa()));
-                    QtdEstoque.setText(String.valueOf(Doc_atual.getEstoque()));
-                    VlrVenda.setText(String.valueOf(Doc_atual.getVenda()));
-                    VlrCusto.setText(String.valueOf(Doc_atual.getCusto()));
+                    Pagamento.setText(Doc_atual.getMeio());
+                    Documento.setText(Doc_atual.getDocumento());
+                    Total.setText(String.valueOf(Doc_atual.getTotal()));
+                    Emissao.setText(String.valueOf(Doc_atual.getEmissao()));
                 }
 
-                if (Nome.getText().isEmpty()) {
+                if (Total.getText().isEmpty()) {
                     ID.setText("");
                 }
             }
         }
-        if (evt.getComponent() == Nome) {
-            Nome.setText(Utils.AjustaTexto(Nome.getText()));
+        if (evt.getComponent() == Pagamento) {
+            Pagamento.setText(Utils.AjustaTexto(Pagamento.getText()));
         }
-        if (evt.getComponent() == Referencia) {
-            Referencia.setText(Utils.AjustaTexto(Referencia.getText()));
-        }
-        if (evt.getComponent() == Unidade) {
-            Unidade.setText(Utils.AjustaTexto(Unidade.getText()));
+        if (evt.getComponent() == Documento) {
+            Documento.setText(Utils.AjustaTexto(Documento.getText()));
         }
     }//GEN-LAST:event_FocusLostGen
+
+    private void EmissaoFocusLostGen(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_EmissaoFocusLostGen
+        if (evt.getComponent() == ID) {
+            if (!ID.getText().isEmpty()) {
+
+                ArrayList<Documento> D1 = DocumentoManager.getInstance().Selecionar("Doc_ID=" + ID.getText());
+
+                if (!D1.isEmpty()) {
+                    Doc_atual = D1.get(0);
+                    ID.setText(String.valueOf(Doc_atual.getId()));
+                    Pagamento.setText(Doc_atual.getMeio());
+                    Documento.setText(Doc_atual.getDocumento());
+                    Total.setText(String.valueOf(Doc_atual.getMeio()));
+                    Emissao.setText(String.valueOf(Doc_atual.getEmissao()));
+
+                }
+            }
+
+            if (Pagamento.getText().isEmpty()) {
+                ID.setText("");
+            }
+        }
+        if (evt.getComponent() == Pagamento) {
+            Pagamento.setText(Utils.AjustaTexto(Pagamento.getText()));
+        }
+    }//GEN-LAST:event_EmissaoFocusLostGen
 
     /**
      * @param args the command line arguments
@@ -541,7 +436,7 @@ public class Documentos extends javax.swing.JDialog {
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                Documento dialog = new Documento(new javax.swing.JFrame(), true);
+                Documentos dialog = new Documentos(new javax.swing.JFrame(), true);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {
@@ -555,28 +450,20 @@ public class Documentos extends javax.swing.JDialog {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton BtnCancelar;
-    private javax.swing.JButton BtnConsultar;
     private javax.swing.JButton BtnExcluir;
     private javax.swing.JButton BtnOK;
-    private javax.swing.JTextField CodFornecedor;
+    private javax.swing.JTextField Documento;
+    private javax.swing.JFormattedTextField Emissao;
     private javax.swing.JTextField ID;
-    private javax.swing.JTextField NCM;
-    private javax.swing.JTextField Nome;
-    private javax.swing.JTextField NomeFornecedor;
-    private javax.swing.JTextField QtdEstoque;
-    private javax.swing.JTextField Referencia;
-    private javax.swing.JTextField Unidade;
-    private javax.swing.JTextField VlrCusto;
-    private javax.swing.JTextField VlrVenda;
+    private javax.swing.JTextField Pagamento;
+    private javax.swing.JComboBox<Pessoa> Pessoa;
+    private javax.swing.JTextField Total;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel10;
-    private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
-    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     // End of variables declaration//GEN-END:variables
 }

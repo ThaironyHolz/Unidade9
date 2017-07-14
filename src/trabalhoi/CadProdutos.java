@@ -12,6 +12,7 @@ import Model.Produto;
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
 
 /**
@@ -34,6 +35,9 @@ public class CadProdutos extends javax.swing.JDialog {
 
         this.setTitle("Cadastro de Produtos");
         BtnCancelar.doClick();
+
+        ArrayList<Pessoa> pessoas = PessoaManager.getInstance().selecionar("");
+        Pessoa.setModel(new DefaultComboBoxModel<>(pessoas.toArray(new Pessoa[pessoas.size()])));
     }
 
     /**
@@ -57,8 +61,6 @@ public class CadProdutos extends javax.swing.JDialog {
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
-        NomeFornecedor = new javax.swing.JTextField();
-        CodFornecedor = new javax.swing.JTextField();
         jLabel10 = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
         QtdEstoque = new javax.swing.JTextField();
@@ -67,9 +69,9 @@ public class CadProdutos extends javax.swing.JDialog {
         NCM = new javax.swing.JTextField();
         jPanel1 = new javax.swing.JPanel();
         BtnCancelar = new javax.swing.JButton();
-        BtnConsultar = new javax.swing.JButton();
         BtnExcluir = new javax.swing.JButton();
         BtnOK = new javax.swing.JButton();
+        Pessoa = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         getContentPane().setLayout(new java.awt.GridBagLayout());
@@ -213,41 +215,6 @@ public class CadProdutos extends javax.swing.JDialog {
         gridBagConstraints.insets = new java.awt.Insets(0, 15, 10, 0);
         getContentPane().add(jLabel9, gridBagConstraints);
 
-        NomeFornecedor.setEditable(false);
-        NomeFornecedor.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                FocusLostGen(evt);
-            }
-        });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 8;
-        gridBagConstraints.gridwidth = 2;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.ipadx = 1;
-        gridBagConstraints.ipady = 1;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.FIRST_LINE_START;
-        gridBagConstraints.insets = new java.awt.Insets(0, 10, 10, 0);
-        getContentPane().add(NomeFornecedor, gridBagConstraints);
-
-        CodFornecedor.setMaximumSize(new java.awt.Dimension(100, 20));
-        CodFornecedor.setMinimumSize(new java.awt.Dimension(80, 20));
-        CodFornecedor.setPreferredSize(new java.awt.Dimension(80, 20));
-        CodFornecedor.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                FocusLostGen(evt);
-            }
-        });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 8;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.ipadx = 1;
-        gridBagConstraints.ipady = 1;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.FIRST_LINE_START;
-        gridBagConstraints.insets = new java.awt.Insets(0, 10, 10, 0);
-        getContentPane().add(CodFornecedor, gridBagConstraints);
-
         jLabel10.setText("Vlr. Venda");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -347,13 +314,6 @@ public class CadProdutos extends javax.swing.JDialog {
             }
         });
 
-        BtnConsultar.setText("F02 Consultar");
-        BtnConsultar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                BtnAction(evt);
-            }
-        });
-
         BtnExcluir.setText("F09 Excluir");
         BtnExcluir.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -373,7 +333,6 @@ public class CadProdutos extends javax.swing.JDialog {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(BtnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-            .addComponent(BtnConsultar, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
             .addComponent(BtnExcluir, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
             .addComponent(BtnOK, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
@@ -381,9 +340,7 @@ public class CadProdutos extends javax.swing.JDialog {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addComponent(BtnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(BtnConsultar, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(52, 52, 52)
                 .addComponent(BtnExcluir, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(BtnOK, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -396,6 +353,15 @@ public class CadProdutos extends javax.swing.JDialog {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(0, 10, 15, 15);
         getContentPane().add(jPanel1, gridBagConstraints);
+
+        Pessoa.setName(""); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 8;
+        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.insets = new java.awt.Insets(0, 10, 10, 0);
+        getContentPane().add(Pessoa, gridBagConstraints);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -415,14 +381,9 @@ public class CadProdutos extends javax.swing.JDialog {
             Nome.setText("");
             Referencia.setText("");
             Unidade.setText("");
-            CodFornecedor.setText("");
             QtdEstoque.setText("0");
             VlrVenda.setText("0");
             VlrCusto.setText("0");
-            CodFornecedor.setText("0");
-        }
-        if (evt.getSource() == BtnConsultar) {
-            //aaa
         }
         if (evt.getSource() == BtnExcluir) {
             if (!ID.getText().isEmpty()) {
@@ -444,7 +405,7 @@ public class CadProdutos extends javax.swing.JDialog {
                 Prd_atual.setReferencia(Referencia.getText());
                 Prd_atual.setUnidade(Unidade.getText());
                 Prd_atual.setNCM(NCM.getText());
-                Prd_atual.setId_Pessoa(Integer.parseInt(CodFornecedor.getText()));
+                Prd_atual.setId_Pessoa(((Pessoa) Pessoa.getSelectedItem()).getId());
                 Prd_atual.setEstoque((BigDecimal) format.parseObject(QtdEstoque.getText()));
                 Prd_atual.setVenda((BigDecimal) format.parseObject(VlrVenda.getText()));
                 Prd_atual.setCusto((BigDecimal) format.parseObject(VlrCusto.getText()));
@@ -488,7 +449,7 @@ public class CadProdutos extends javax.swing.JDialog {
                     Referencia.setText(Prd_atual.getReferencia());
                     Unidade.setText(Prd_atual.getUnidade());
                     NCM.setText(Prd_atual.getNCM());
-                    CodFornecedor.setText(String.valueOf(Prd_atual.getId_Pessoa()));
+//                    CodFornecedor.setText(String.valueOf(Prd_atual.getId_Pessoa()));
                     QtdEstoque.setText(String.valueOf(Prd_atual.getEstoque()));
                     VlrVenda.setText(String.valueOf(Prd_atual.getVenda()));
                     VlrCusto.setText(String.valueOf(Prd_atual.getCusto()));
@@ -507,17 +468,6 @@ public class CadProdutos extends javax.swing.JDialog {
         }
         if (evt.getComponent() == Unidade) {
             Unidade.setText(Utils.AjustaTexto(Unidade.getText()));
-        }
-        if (evt.getComponent() == CodFornecedor) {
-            if (!CodFornecedor.getText().isEmpty()) {
-
-                ArrayList<Pessoa> P1 = PessoaManager.getInstance().selecionar("Pes_ID=" + CodFornecedor.getText());
-
-                if (!P1.isEmpty()) {
-                    Pessoa Pes_atual = P1.get(0);
-                    NomeFornecedor.setText(Pes_atual.getNome());
-                }
-            }
         }
     }//GEN-LAST:event_FocusLostGen
 
@@ -566,14 +516,12 @@ public class CadProdutos extends javax.swing.JDialog {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton BtnCancelar;
-    private javax.swing.JButton BtnConsultar;
     private javax.swing.JButton BtnExcluir;
     private javax.swing.JButton BtnOK;
-    private javax.swing.JTextField CodFornecedor;
     private javax.swing.JTextField ID;
     private javax.swing.JTextField NCM;
     private javax.swing.JTextField Nome;
-    private javax.swing.JTextField NomeFornecedor;
+    private javax.swing.JComboBox<Pessoa> Pessoa;
     private javax.swing.JTextField QtdEstoque;
     private javax.swing.JTextField Referencia;
     private javax.swing.JTextField Unidade;

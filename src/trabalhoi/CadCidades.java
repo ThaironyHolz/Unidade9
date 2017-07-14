@@ -60,7 +60,6 @@ public class CadCidades extends javax.swing.JDialog {
         ID = new javax.swing.JFormattedTextField();
         jPanel2 = new javax.swing.JPanel();
         BtnCancelar = new javax.swing.JButton();
-        BtnConsultar = new javax.swing.JButton();
         BtnExcluir = new javax.swing.JButton();
         BtnOK = new javax.swing.JButton();
 
@@ -228,13 +227,6 @@ public class CadCidades extends javax.swing.JDialog {
             }
         });
 
-        BtnConsultar.setText("F02 Consultar");
-        BtnConsultar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                BtnAction(evt);
-            }
-        });
-
         BtnExcluir.setText("F09 Excluir");
         BtnExcluir.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -254,7 +246,6 @@ public class CadCidades extends javax.swing.JDialog {
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(BtnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-            .addComponent(BtnConsultar, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
             .addComponent(BtnExcluir, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
             .addComponent(BtnOK, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
@@ -262,9 +253,7 @@ public class CadCidades extends javax.swing.JDialog {
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addComponent(BtnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(BtnConsultar, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(52, 52, 52)
                 .addComponent(BtnExcluir, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(BtnOK, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -354,9 +343,6 @@ public class CadCidades extends javax.swing.JDialog {
             NomeEstado.setText("");
             CEP.setText("");
         }
-        if (evt.getSource() == BtnConsultar) {
-            //Consulta de cidades
-        }
         if (evt.getSource() == BtnExcluir) {
             if (!ID.getText().isEmpty()) {
                 CidadeManager.getInstance().delete(Cid_atual);
@@ -434,7 +420,6 @@ public class CadCidades extends javax.swing.JDialog {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton BtnCancelar;
-    private javax.swing.JButton BtnConsultar;
     private javax.swing.JButton BtnExcluir;
     private javax.swing.JButton BtnOK;
     private javax.swing.JFormattedTextField CEP;
