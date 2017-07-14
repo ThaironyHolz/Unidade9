@@ -5,7 +5,9 @@
  */
 package trabalhoi;
 
+import Manager.PessoaManager;
 import Manager.ProdutoManager;
+import Model.Pessoa;
 import Model.Produto;
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
@@ -430,23 +432,22 @@ public class CadProdutos extends javax.swing.JDialog {
             BtnCancelar.doClick();
         }
         if (evt.getSource() == BtnOK) {
-            if (ID.getText().isEmpty()
-                    || Nome.getText().isEmpty()) {
-                JOptionPane.showMessageDialog(this, "Campos obrigatórios não preenchidos \n  Código e Nome");
+            if (Nome.getText().isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Campos obrigatórios não preenchidos: Nome");
             }
 
             try {
                 DecimalFormat format = new DecimalFormat("##,#0.00");
                 format.setParseBigDecimal(true);
-                
+
                 Prd_atual.setNome(Nome.getText());
                 Prd_atual.setReferencia(Referencia.getText());
                 Prd_atual.setUnidade(Unidade.getText());
                 Prd_atual.setNCM(NCM.getText());
                 Prd_atual.setId_Pessoa(Integer.parseInt(CodFornecedor.getText()));
-                Prd_atual.setEstoque((BigDecimal)format.parseObject(QtdEstoque.getText()));
-                Prd_atual.setVenda((BigDecimal)format.parseObject(VlrVenda.getText()));
-                Prd_atual.setCusto((BigDecimal)format.parseObject(VlrCusto.getText()));
+                Prd_atual.setEstoque((BigDecimal) format.parseObject(QtdEstoque.getText()));
+                Prd_atual.setVenda((BigDecimal) format.parseObject(VlrVenda.getText()));
+                Prd_atual.setCusto((BigDecimal) format.parseObject(VlrCusto.getText()));
 
                 if (ID.getText().isEmpty()) {
                     ProdutoManager.getInstance().add(Prd_atual);
@@ -454,7 +455,7 @@ public class CadProdutos extends javax.swing.JDialog {
                     Prd_atual.setID(Integer.parseInt(ID.getText()));
                     ProdutoManager.getInstance().update(Prd_atual);
                 }
-                
+
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -481,7 +482,7 @@ public class CadProdutos extends javax.swing.JDialog {
                 ArrayList<Produto> P1 = ProdutoManager.getInstance().selecionar("Prd_ID=" + ID.getText());
 
                 if (!P1.isEmpty()) {
-                    Prd_atual = P1.get(1);
+                    Prd_atual = P1.get(0);
 
                     Nome.setText(Prd_atual.getNome());
                     Referencia.setText(Prd_atual.getReferencia());
@@ -506,6 +507,17 @@ public class CadProdutos extends javax.swing.JDialog {
         }
         if (evt.getComponent() == Unidade) {
             Unidade.setText(Utils.AjustaTexto(Unidade.getText()));
+        }
+        if (evt.getComponent() == CodFornecedor) {
+            if (!CodFornecedor.getText().isEmpty()) {
+
+                ArrayList<Pessoa> P1 = PessoaManager.getInstance().selecionar("Pes_ID=" + CodFornecedor.getText());
+
+                if (!P1.isEmpty()) {
+                    Pessoa Pes_atual = P1.get(0);
+                    NomeFornecedor.setText(Pes_atual.getNome());
+                }
+            }
         }
     }//GEN-LAST:event_FocusLostGen
 

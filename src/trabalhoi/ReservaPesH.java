@@ -23,37 +23,37 @@ public class ReservaPesH implements Serializable {
     /**
      * @return the res_id
      */
-    public Integer getRes_id() {
+    public int getRes_id() {
         return res_id;
     }
 
     /**
      * @param res_id the res_id to set
      */
-    public void setRes_id(Integer res_id) {
+    public void setRes_id(int res_id) {
         this.res_id = res_id;
     }
 
     /**
      * @return the res_id_pessoa
      */
-    public Integer getRes_id_pessoa() {
+    public int getRes_id_pessoa() {
         return res_id_pessoa;
     }
 
     /**
      * @param res_id_pessoa the res_id_pessoa to set
      */
-    public void setRes_id_pessoa(Integer res_id_pessoa) {
+    public void setRes_id_pessoa(int res_id_pessoa) {
         this.res_id_pessoa = res_id_pessoa;
     }
 
     @Id
     @Column(name = "res_id")
-    private Integer res_id;
+    private int res_id;
 
     @Column(name = "res_id_pessoa")
-    private Integer res_id_pessoa;
+    private int res_id_pessoa;
 
 }
 

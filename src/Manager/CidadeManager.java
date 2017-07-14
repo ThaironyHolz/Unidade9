@@ -31,7 +31,7 @@ public class CidadeManager {
 
     public void add(Cidade Cid) {
         try (ConexaoPostgre db = ConexaoPostgre.getInstance()) {
-            PreparedStatement ps = db.prepareStatement("INSERT INTO Cidades (Cid_Nome, Cid_cd_estado, Cid_cd_pais, Cid_Cep) VALUES (?, ?, ?, ?)", PreparedStatement.RETURN_GENERATED_KEYS);
+            PreparedStatement ps = db.prepareStatement("INSERT INTO cidades (Cid_Nome, Cid_cd_estado, Cid_cd_pais, Cid_Cep) VALUES (?, ?, ?, ?)", PreparedStatement.RETURN_GENERATED_KEYS);
 
             ps.setString(1, Cid.getNome());
             ps.setString(2, Cid.getUf());
@@ -78,8 +78,12 @@ public class CidadeManager {
     public ArrayList<Cidade> selecionar(String condicao) {
         ArrayList<Cidade> Cid = new ArrayList<Cidade>();
         
+        if (!condicao.isEmpty()) {
+            condicao = "where " + condicao;
+        }
+                
         try (ConexaoPostgre db = ConexaoPostgre.getInstance()) {
-            PreparedStatement ps = db.prepareStatement("SELECT * FROM Cidades where " + condicao);
+            PreparedStatement ps = db.prepareStatement("SELECT * FROM Cidades " + condicao);
             ResultSet rs = ps.executeQuery();
 
             while (rs.next()) {

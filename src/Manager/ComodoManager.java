@@ -76,6 +76,10 @@ public class ComodoManager {
     public ArrayList<Comodo> selecionar(String condicao) {
         ArrayList<Comodo> Com = new ArrayList<Comodo>();
         
+        if (!condicao.isEmpty()) {
+            condicao = " where " + condicao;
+        }
+                
         try (ConexaoPostgre db = ConexaoPostgre.getInstance()) {
             PreparedStatement ps = db.prepareStatement("SELECT * FROM Comodos where " + condicao);
             ResultSet rs = ps.executeQuery();

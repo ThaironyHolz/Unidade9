@@ -237,21 +237,26 @@ public class Pessoa {
         this.Nascimento = Nascimento;
     }
 
-  private int id;
-  private String Nome;
-  private String Razao;
-  private String Documento1;
-  private String Documento2;
-  private String Documento3;
-  private String Endereco;
-  private String Numero;
-  private String Complemento;
-  private String Bairro;
-  private int Id_Cidade;
-  private String CEP;
-  private String Fone1;
-  private String Fone2;
-  private String email;
-  private Date Nascimento;
-    
+    @Override
+    public String toString() {
+        return getNome();
+    }
+
+    private int id;
+    private String Nome;
+    private String Razao;
+    private String Documento1;
+    private String Documento2;
+    private String Documento3;
+    private String Endereco;
+    private String Numero;
+    private String Complemento;
+    private String Bairro;
+    private int Id_Cidade;
+    private String CEP;
+    private String Fone1;
+    private String Fone2;
+    private String email;
+    private Date Nascimento;
+
 }

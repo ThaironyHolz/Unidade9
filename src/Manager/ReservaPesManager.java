@@ -79,6 +79,10 @@ public class ReservaPesManager {
     public ArrayList<ReservaPes> Selecionar(String condicao) {
         ArrayList<ReservaPes> Rep = new ArrayList<ReservaPes>();
         
+        if (!condicao.isEmpty()) {
+            condicao = " where " + condicao;
+        }
+                
         try (ConexaoPostgre db = ConexaoPostgre.getInstance()) {
             PreparedStatement ps = db.prepareStatement("SELECT * FROM Reserva_Pessoas where " + condicao);
             ResultSet rs = ps.executeQuery();

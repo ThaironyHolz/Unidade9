@@ -80,6 +80,11 @@ public class Cidade {
     public void setCep(String cep) {
         this.cep = cep;
     }
+
+    @Override
+    public String toString() {
+        return getNome();
+    }
     
     private int id;
     private String nome;

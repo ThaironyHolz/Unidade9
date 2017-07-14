@@ -301,9 +301,9 @@ public class CadCidades extends javax.swing.JDialog {
             if (!ID.getText().isEmpty()) {
 
                 ArrayList<Cidade> C1 = CidadeManager.getInstance().selecionar("Cid_ID=" + ID.getText());
-
+                
                 if (!C1.isEmpty()) {
-                    Cid_atual = C1.get(1);
+                    Cid_atual = C1.get(0);
                     ID.setText(String.valueOf(Cid_atual.getId()));
                     Nome.setText(Cid_atual.getNome());
                     CodEstado.setText(Cid_atual.getUf());

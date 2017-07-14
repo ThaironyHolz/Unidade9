@@ -230,7 +230,7 @@ public class CadComodos extends javax.swing.JDialog {
                 ArrayList<Comodo> C1 = ComodoManager.getInstance().selecionar("Com_ID=" + ID.getText());
 
                 if (!C1.isEmpty()) {
-                    Com_atual = C1.get(1);
+                    Com_atual = C1.get(0);
                     ID.setText(String.valueOf(Com_atual.getId()));
                     Descricao.setText(Com_atual.getDescricao());
                     Maximo.setText(String.valueOf(Com_atual.getMaxpessoas()));
@@ -271,7 +271,6 @@ public class CadComodos extends javax.swing.JDialog {
         }
         if (evt.getSource() == BtnConsultar)
         {
-            //aaa
         }
         if (evt.getSource() == BtnExcluir)
         {
@@ -284,10 +283,9 @@ public class CadComodos extends javax.swing.JDialog {
         }
         if (evt.getSource() == BtnOK)
         {
-            if (ID.getText().isEmpty() || 
-                Descricao.getText().isEmpty())
+            if (Descricao.getText().isEmpty())
             {
-                JOptionPane.showMessageDialog(this, "Campos obrigatórios não preenchidos \n  Número e Descrição");
+                JOptionPane.showMessageDialog(this, "Campos obrigatórios não preenchidos: Descrição");
             }
                    
             try {

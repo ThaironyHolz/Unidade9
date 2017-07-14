@@ -86,6 +86,10 @@ public class ProdutoManager {
     public ArrayList<Produto> selecionar(String condicao) {
         ArrayList<Produto> Prd = new ArrayList<Produto>();
         
+        if (!condicao.isEmpty()) {
+            condicao = " where " + condicao;
+        }
+                
         try (ConexaoPostgre db = ConexaoPostgre.getInstance()) {
             PreparedStatement ps = db.prepareStatement("SELECT * FROM Produtos where " + condicao);
             ResultSet rs = ps.executeQuery();

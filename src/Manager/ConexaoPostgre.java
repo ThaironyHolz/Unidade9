@@ -12,7 +12,7 @@ import java.sql.SQLException;
 
 /**
  * Manage the database connection
- * @author Darlan
+ * @author Cristian
  */
 public class ConexaoPostgre implements AutoCloseable
 {
@@ -45,7 +45,7 @@ public class ConexaoPostgre implements AutoCloseable
         }
         catch (Exception e)
         {
-            /*Util.handleException(e);*/
+            e.printStackTrace();
         }
     }
     
@@ -55,13 +55,12 @@ public class ConexaoPostgre implements AutoCloseable
         {
             if (conn == null || conn.isClosed())
             {
-//                conn = DriverManager.getConnection("jdbc:mysql://denuro.com:3306/netmap", "darlan", "");
                 conn = DriverManager.getConnection("jdbc:postgresql://localhost:5432/hotelaria", "postgres", "postgres");
             }
         }
         catch (Exception e)
         {
-            /*Util.handleException(e);*/
+            e.printStackTrace();
         }
     }
     
@@ -104,7 +103,7 @@ public class ConexaoPostgre implements AutoCloseable
             }
             catch (Exception e)
             {
-                /*Util.handleException(e);*/
+                e.printStackTrace();
             }
         }
     }

@@ -400,6 +400,12 @@ public class Menu extends javax.swing.JDialog {
                 Cid1.setLocationRelativeTo(this);
                 Cid1.setVisible(true);
             }
+        if (evt.getSource() == Btn1 && Btn1.getText().equals("Documentos"))
+            {
+                Documentos Doc1 = new Documentos(new javax.swing.JFrame(), true);
+                Doc1.setLocationRelativeTo(this);
+                Doc1.setVisible(true);
+            }
         if (evt.getSource() == Btn6 && Btn6.getText().equals("Cômodos"))
             {
                 CadComodos Com1 = new CadComodos(new javax.swing.JFrame(), true);

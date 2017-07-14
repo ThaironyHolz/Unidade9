@@ -139,6 +139,11 @@ public class Produto {
         this.Custo = Custo;
     }
 
+    @Override
+    public String toString() {
+        return getNome();
+    }
+    
     private int ID;
     private String nome;
     private String referencia;

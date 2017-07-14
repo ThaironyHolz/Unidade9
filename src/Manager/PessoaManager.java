@@ -31,7 +31,7 @@ public class PessoaManager {
 
     public void add(Pessoa Pes) {
         try (ConexaoPostgre db = ConexaoPostgre.getInstance()) {
-            PreparedStatement ps = db.prepareStatement("INSERT INTO Pessoas (Pes_Nome, Pes_Razao, Pes_Documento1, Pes_Documento2, Pes_Documento3, Pes_Endereco, Pes_Numero, Pes_Complemento, Pes_Bairro, Pes_Id_Cidade, Pes_CEP, Pes_Fone1, Pes_Fone2, Pes_email, Pes_Nascimento) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", PreparedStatement.RETURN_GENERATED_KEYS);
+            PreparedStatement ps = db.prepareStatement("INSERT INTO Pessoas (Pes_Nome, Pes_Razao, Pes_Documento1, Pes_Documento2, Pes_Documento3, Pes_Endereco, Pes_Numero, Pes_Complemento, Pes_Bairro, Pes_Id_Cidade, Pes_CEP, Pes_Fone1, Pes_Fone2, Pes_email, Pes_Nascimento) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", PreparedStatement.RETURN_GENERATED_KEYS);
 
             ps.setString(1, Pes.getNome());
             ps.setString(2, Pes.getRazao());
@@ -100,8 +100,12 @@ public class PessoaManager {
     public ArrayList<Pessoa> selecionar(String condicao) {
         ArrayList<Pessoa> Pes = new ArrayList<Pessoa>();
         
+        if (!condicao.isEmpty()) {
+            condicao = "where " + condicao;
+        }
+                
         try (ConexaoPostgre db = ConexaoPostgre.getInstance()) {
-            PreparedStatement ps = db.prepareStatement("SELECT * FROM Pessoas where " + condicao);
+            PreparedStatement ps = db.prepareStatement("SELECT * FROM Pessoas " + condicao);
             ResultSet rs = ps.executeQuery();
 
             while (rs.next()) {
